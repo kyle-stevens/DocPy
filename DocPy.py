@@ -1,7 +1,9 @@
 import argparse
 import clean_temp_files
 import clean_web_cache
+import clean_windows_downloads
 import clean_windows_install
+import clean_windows_downloads
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='DocPy',
@@ -26,6 +28,9 @@ if __name__ == '__main__':
     parser.add_argument('--empty-bin',
                         action='store_true',
                         help='Empty the Windows Recycle Bin.')
+    parser.add_argument('--clean-downloads',
+                        action='store_true',
+                        help='Empty the Windows Download Folder.')
 
     args = parser.parse_args()
     print('')
@@ -53,9 +58,14 @@ if __name__ == '__main__':
         print('CLEANING: Emptying Recycle Bin...')
         clean_windows_install.empty_recycle_bin()
         print('')
+    if (args.clean_downloads):
+        print('CLEANING: Emptying Downloads Folder...')
+        clean_windows_downloads.clean_downloads()
+        print('')
     if not (
             args.temp_files or args.sys_temp_files or
             args.web_cache or args.web_cookies or
-            args.windows_installs or args.empty_bin
+            args.windows_installs or args.empty_bin or
+            args.clean_downloads
     ):
         print("Please see the help(--help) menu for DocPy Options")

@@ -22,3 +22,4 @@ def empty_recycle_bin():
 
 if __name__ == '__main__':
     clean_system_temp_files()
+    empty_recycle_bin()
