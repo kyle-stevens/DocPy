@@ -1,9 +1,6 @@
 import argparse
-import clean_temp_files
-import clean_web_cache
-import clean_windows_downloads
-import clean_windows_install
-import clean_windows_downloads
+import windows_systems_utils
+import web_browser_utils
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='DocPy',
@@ -36,31 +33,31 @@ if __name__ == '__main__':
     print('')
     if (args.temp_files):
         print('CLEANING: Computer\'s User Temporary Files...')
-        clean_temp_files.clean_user_temp_files()
+        windows_systems_utils.clean_user_temp_files()
         print('')
     if (args.sys_temp_files):
         print('CLEANING: Computer\'s System Temporary Files...')
-        clean_temp_files.clean_system_temp_files()
+        windows_systems_utils.clean_system_temp_files()
         print('')
     if (args.web_cache):
         print('CLEANING: Computer\'s Web Cache...')
-        clean_web_cache.clean_web_cache()
+        web_browser_utils.clean_web_cache()
         print('')
     if (args.web_cookies):
         print('CLEANING: Computer\'s Web Cookies...')
-        clean_web_cache.clean_web_cookies()
+        web_browser_utils.clean_web_cookies()
         print('')
     if (args.windows_installs):
         print('CLEANING: Old Windows Installs...')
-        clean_windows_install.clean_windows_install()
+        windows_systems_utils.clean_windows_install_files()
         print('')
     if (args.empty_bin):
         print('CLEANING: Emptying Recycle Bin...')
-        clean_windows_install.empty_recycle_bin()
+        windows_systems_utils.empty_recycle_bin_files()
         print('')
     if (args.clean_downloads):
         print('CLEANING: Emptying Downloads Folder...')
-        clean_windows_downloads.clean_downloads()
+        windows_systems_utils.clean_downloads_folders_files()
         print('')
     if not (
             args.temp_files or args.sys_temp_files or
