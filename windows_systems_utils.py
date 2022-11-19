@@ -2,6 +2,8 @@ import sys
 import os
 import platform
 import subprocess
+import shutil
+import winshell
 
 def clean_system_temp_files():
     system_platform = platform.system()
@@ -46,6 +48,35 @@ def clean_user_temp_files():
 
     return
 
-if __name__ == '__main__':
-    clean_system_temp_files()
-    clean_user_temp_files()
+def clean_windows_install_files():
+    system_platform = platform.system()
+    if system_platform == 'Windows':
+        os.chdir('C:\\')
+        try:
+            shutil.rmtree('Windows.old')
+        except FileNotFoundError:
+            print('STATUS:\tNo Old Windows Installations to Delete.')
+    return
+
+def empty_recycle_bin_files():
+    winshell.recycle_bin().empty(confirm=False, show_progress=False, sound=False)
+    print('STATUS\tRecycle Bin has been emptied.')
+    return
+
+def clean_downloads_folders_files():
+    system_platform = platform.system()
+    if system_platform == 'Windows':
+        os.chdir(os.path.join('C:\\Users', os.getlogin(), 'Downloads'))
+        try:
+            for entity in os.listdir(os.getcwd()):
+                try:
+                    if os.path.isdir(os.path.join(os.getcwd(), entity)):
+                        shutil.rmtree(os.path.join(os.getcwd(), entity))
+                    else:
+                        os.remove(entity)
+                    print('DELETED:\t', entity)
+                except:
+                    print('FAILED:\t', entity)
+        except FileNotFoundError:
+            print('STATUS:\tNo Downloads Folder in Default Location')
+    return
