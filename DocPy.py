@@ -33,31 +33,31 @@ if __name__ == '__main__':
     print('')
     if (args.temp_files):
         print('CLEANING: Computer\'s User Temporary Files...')
-        windows_systems_utils.clean_user_temp_files()
+        print(windows_systems_utils.clean_user_temp_files(), 'Bytes')
         print('')
     if (args.sys_temp_files):
         print('CLEANING: Computer\'s System Temporary Files...')
-        windows_systems_utils.clean_system_temp_files()
+        print(windows_systems_utils.clean_system_temp_files(), 'Bytes')
         print('')
     if (args.web_cache):
         print('CLEANING: Computer\'s Web Cache...')
-        web_browser_utils.clean_web_cache()
+        print(web_browser_utils.clean_web_cache(), 'Bytes')
         print('')
     if (args.web_cookies):
         print('CLEANING: Computer\'s Web Cookies...')
-        web_browser_utils.clean_web_cookies()
+        print(web_browser_utils.clean_web_cookies(), 'Bytes')
         print('')
     if (args.windows_installs):
         print('CLEANING: Old Windows Installs...')
-        windows_systems_utils.clean_windows_install_files()
+        print(windows_systems_utils.clean_windows_install_files(), 'Bytes')
         print('')
     if (args.empty_bin):
         print('CLEANING: Emptying Recycle Bin...')
-        windows_systems_utils.empty_recycle_bin_files()
+        print(windows_systems_utils.empty_recycle_bin_files(), 'Bytes')
         print('')
     if (args.clean_downloads):
         print('CLEANING: Emptying Downloads Folder...')
-        windows_systems_utils.clean_downloads_folders_files()
+        print(windows_systems_utils.clean_downloads_folders_files(), 'Bytes')
         print('')
     if not (
             args.temp_files or args.sys_temp_files or
