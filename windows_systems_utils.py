@@ -12,22 +12,27 @@ def clean_system_temp_files():
         os.chdir(os.path.join('C:\\Windows\\Temp'))
         for entity in os.listdir(os.getcwd()):
             try:
+                temp_file_size = 0
                 if os.path.isdir(os.path.join(os.getcwd(), entity)):
-                    file_sizes += os.stat(entity).st_size
-                    os.rmdir(entity)
+                    print(entity)
+                    for path, dirs, files in os.walk(entity):
+                        for f in files:
+                            fp = os.path.join(path, f)
+                            temp_file_size += os.stat(fp).st_size
+                    os.rmdir(entity) #need to change to shutil for fix
                 else:
-                    file_sizes += os.stat(entity).st_size
+                    temp_file_size = os.stat(entity)
                     os.remove(entity)
+                file_sizes += temp_file_size
                 print('DELETED:\t', entity)
-            except:
-                print('FAILED:\t', entity)
+            except Exception as e:
+                print('FAILED:\t', entity, e)
         return(file_sizes)
     elif system_platform == 'Darwin':
         pass
     elif system_platform == 'Linux':
         pass
-
-    return
+    return(file_sizes)
 
 def clean_user_temp_files():
     file_sizes = 0
@@ -51,8 +56,7 @@ def clean_user_temp_files():
         pass
     elif system_platform == 'Linux':
         pass
-
-    return
+    return(file_sizes)
 
 def clean_windows_install_files():
     file_sizes = 0
@@ -60,16 +64,16 @@ def clean_windows_install_files():
     if system_platform == 'Windows':
         os.chdir('C:\\')
         try:
-            file_sizes += os.stat('Windows.old').st_size
             shutil.rmtree('Windows.old')
         except FileNotFoundError:
             print('STATUS:\tNo Old Windows Installations to Delete.')
     return(file_sizes)
 
 def empty_recycle_bin_files():
+    file_sizes = 0
     winshell.recycle_bin().empty(confirm=False, show_progress=False, sound=False)
     print('STATUS\tRecycle Bin has been emptied.')
-    return
+    return(file_sizes)
 
 def clean_downloads_folders_files():
     file_sizes = 0
