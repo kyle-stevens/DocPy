@@ -13,6 +13,7 @@ def process_exists(process_name):
     return last_line.lower().startswith(process_name.lower())
 
 def clean_web_cookies():
+    file_sizes = 0
     system_platform = platform.system()
     if system_platform == 'Windows':
         standard_browsers = {'firefox.exe' : os.path.join('C:\\Users\\', os.getlogin(), 'AppData\\Roaming\\Mozilla\\Firefox\\Profiles'),
@@ -30,12 +31,16 @@ def clean_web_cookies():
                         for dir in os.listdir(os.getcwd()):
                             if '.default-release' in dir:
                                 os.chdir(os.path.join(os.getcwd(), dir))
+                        file_sizes += os.stat(entity).st_size
                         os.remove('cookies.sqlite')
                     if browser == 'chrome.exe':
+                        file_sizes += os.stat(entity).st_size
                         os.remove('Cookies')
                     if browser == 'msedge.exe':
+                        file_sizes += os.stat(entity).st_size
                         os.remove('Cookies')
                     if browser == 'opera.exe':
+                        file_sizes += os.stat(entity).st_size
                         os.remove('Cookies')
                     print('COMPLETE')
                 except FileNotFoundError:
@@ -45,9 +50,10 @@ def clean_web_cookies():
     elif system_platform == 'Linux':
         pass
 
-    return
+    return(file_sizes)
 
 def clean_web_cache():
+    file_sizes = 0
     system_platform = platform.system()
     if system_platform == 'Windows':
         standard_browsers = { #This needs to be changed to the web cache folders instead of cookies
@@ -68,10 +74,13 @@ def clean_web_cache():
                         for dir in os.listdir(os.getcwd()):
                             if '.default-release' in dir:
                                 os.chdir(os.path.join(os.getcwd(), dir))
+                        file_sizes += os.stat(entity).st_size
                         shutil.rmtree('cache2')
                     if browser == 'chrome.exe':
+                        file_sizes += os.stat(entity).st_size
                         shutil.rmtree('Cache_Data')
                     if browser == 'msedge.exe':
+                        file_sizes += os.stat(entity).st_size
                         shutil.rmtree('Cache_Data')
                     #if browser == 'opera.exe': #not currently working. Need to find default webcache location
                     #    os.remove('Cookies')
@@ -83,7 +92,7 @@ def clean_web_cache():
     elif system_platform == 'Linux':
         pass
 
-    return
+    return(file_sizes)
 
 if __name__ == '__main__':
     clean_web_cookies()
