@@ -19,7 +19,7 @@ def clean_system_temp_files():
                         for f in files:
                             fp = os.path.join(path, f)
                             temp_file_size += os.stat(fp).st_size
-                    os.rmdir(entity) #need to change to shutil for fix
+                    shutil.rmtree(entity)
                 else:
                     temp_file_size = os.stat(entity)
                     os.remove(entity)
@@ -42,12 +42,17 @@ def clean_user_temp_files():
         #os.system('dir')
         for entity in os.listdir(os.getcwd()):
             try:
+                temp_file_size = 0
                 if os.path.isdir(os.path.join(os.getcwd(), entity)):
-                    file_sizes += os.stat(entity).st_size
-                    os.rmdir(entity)
+                    for path, dirs, files in os.walk(entity):
+                        for f in files:
+                            fp = os.path.join(path, f)
+                            temp_file_size += os.stat(fp).st_size
+                    shutil.rmtree(entity)
                 else:
-                    file_sizes += os.stat(entity).st_size
+                    temp_file_size = os.stat(entity)
                     os.remove(entity)
+                file_sizes += temp_file_size
                 print('DELETED:\t', entity)
             except:
                 print('FAILED:\t', entity)
@@ -60,13 +65,19 @@ def clean_user_temp_files():
 
 def clean_windows_install_files():
     file_sizes = 0
+    temp_file_size = 0
     system_platform = platform.system()
     if system_platform == 'Windows':
         os.chdir('C:\\')
         try:
+            for path, dirs, files in os.walk(entity):
+                for f in files:
+                    fp = os.path.join(path, f)
+                    temp_file_size += os.stat(fp).st_size
             shutil.rmtree('Windows.old')
         except FileNotFoundError:
             print('STATUS:\tNo Old Windows Installations to Delete.')
+        file_sizes += temp_file_size
     return(file_sizes)
 
 def empty_recycle_bin_files():
@@ -81,14 +92,19 @@ def clean_downloads_folders_files():
     if system_platform == 'Windows':
         os.chdir(os.path.join('C:\\Users', os.getlogin(), 'Downloads'))
         try:
+            temp_file_size = 0
             for entity in os.listdir(os.getcwd()):
                 try:
                     if os.path.isdir(os.path.join(os.getcwd(), entity)):
-                        file_sizes += os.stat(entity).st_size
+                        for path, dirs, files in os.walk(entity):
+                            for f in files:
+                                fp = os.path.join(path, f)
+                                temp_file_size += os.stat(fp).st_size
                         shutil.rmtree(os.path.join(os.getcwd(), entity))
                     else:
-                        file_sizes += os.stat(entity).st_size
+                        temp_file_size += os.stat(fp).st_size
                         os.remove(entity)
+                    file_sizes += temp_file_size
                     print('DELETED:\t', entity)
                 except:
                     print('FAILED:\t', entity)
