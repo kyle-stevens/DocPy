@@ -232,6 +232,9 @@ class MainPanel(wx.Frame):
 # end of class MainPanel
 
 class DocPyGUI(wx.App):
+    def __init__(self, redirect=True, filename="./log", useBestVisual=False, clearSigInt=True):
+        super().__init__(redirect, filename, useBestVisual, clearSigInt)
+
     def OnInit(self):
         self.DocPy = MainPanel(None, wx.ID_ANY, "")
         self.SetTopWindow(self.DocPy)
